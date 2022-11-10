@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Files and folders
+/data/focus_list.csv
+/logs
