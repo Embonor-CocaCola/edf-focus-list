@@ -1,6 +1,6 @@
 from db import DB
-from pathlib import Path
 import logging
+from pathlib import Path
 from utils import getRawSql
 
 db = DB()
@@ -21,11 +21,16 @@ def typedProcess():
 def dropTempTable():
     db.query(getRawSql('drop_temp_table.sql'))
 
+def exportNonExistingCustomers():
+    path = Path(__file__).parent / "../logs/customer_error.csv"
+    db.copy(getRawSql('export_errors.sql'), open(path, 'w', encoding='UTF8'))
+
 def main():
     createTempTable()
     loadProcess()
     softDeleteProcess()
     typedProcess()
+    exportNonExistingCustomers()
     dropTempTable()
 
 if __name__ == '__main__':

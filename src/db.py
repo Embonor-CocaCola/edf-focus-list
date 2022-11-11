@@ -24,8 +24,7 @@ class DB():
         if self.conn is not None:
             try:
                 self.cur.execute(query)
-                data = self.cur.fetchall()
-                return data
+                return self.cur.fetchall()
             except psycopg2.DatabaseError as error:
                 raise error
             finally:
