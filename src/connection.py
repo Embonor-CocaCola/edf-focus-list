@@ -27,11 +27,18 @@ class Connection:
                     dbname=self.dbname
                 )
                 Connection.cur = self.conn.cursor()
-                return Connection
             except psycopg2.DatabaseError as error:
                 raise error
         else:
             raise ConnectionError("You cannot create another Connection class")
+
+    @staticmethod
+    def commit():
+        if Connection.conn is not None:
+            try:
+                Connection.conn.commit()
+            except psycopg2.DatabaseError as error:
+                raise error
 
     @staticmethod
     def close():

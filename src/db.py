@@ -1,69 +1,62 @@
 from connection import Connection
 import psycopg2
 
-class DB(Connection):
+class DB():
     def __init__(self):
-        Connection.__init__(self)
+        self.conn = Connection()
+        self.cur = self.conn.cur
 
-    @staticmethod
-    def query(query, item=None):
-        if Connection.conn is not None:
+    def query(self, query, item=None):
+        if self.conn is not None:
             try:
                 if item is not None:
-                    Connection.cur.execute(query, item)
+                    self.cur.execute(query, item)
                 else:
-                    Connection.cur.execute(query)
-                Connection.conn.commit()
+                    self.cur.execute(query)
+                self.conn.commit()
             except psycopg2.DatabaseError as error:
                 print(error)
                 raise error
             finally:
                 print(f'Query executed successfully.')
 
-    @staticmethod
-    def findAll(query):
-        if Connection.conn is not None:
+    def findAll(self, query):
+        if self.conn is not None:
             try:
-                cur = Connection.cur
-                cur.execute(query)
-                data = cur.fetchall()
+                self.cur.execute(query)
+                data = self.cur.fetchall()
                 return data
             except psycopg2.DatabaseError as error:
                 raise error
             finally:
                 print(f'FindAll executed successfully.')
 
-    @staticmethod
-    def find(query):
-        if Connection.conn is not None:
+    def find(self, query):
+        if self.conn is not None:
             try:
-                cur = Connection.cur
-                cur.execute(query)
-                return cur.fetchone()
+                self.cur.execute(query)
+                return self.cur.fetchone()
             except psycopg2.DatabaseError as error:
                 print(error)
                 raise error
             finally:
                 print(f'Find executed successfully.')
 
-    @staticmethod
-    def copy(query, file): 
-        if Connection.conn is not None:
+    def copy(self, query, file): 
+        if self.conn is not None:
             try:
-                cur = Connection.cur
-                cur.copy_expert(query, file)
-                Connection.conn.commit()
+                self.cur.copy_expert(query, file)
+                self.conn.commit()
             except psycopg2.DatabaseError as error:
                 print(error)
                 raise error
             finally:
                 print(f'Copy executed successfully.')
 
-    @staticmethod
-    def close():
-        if Connection.conn is not None:
+    def close(self):
+        if self.conn is not None:
             try:
-                Connection.close()
+                self.conn.close()
             except psycopg2.DatabaseError as error:
                 print(error)
                 raise error
