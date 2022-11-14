@@ -6,7 +6,7 @@ from config import (
     DB_CONNECTION_USER,
     DB_CONNECTION_PASSWORD
 )
-from utils import errorFileGenerator
+from utils import error_file_generator
 
 class Connection:
     conn = None
@@ -29,7 +29,7 @@ class Connection:
                 )
                 Connection.cur = self.conn.cursor()
             except psycopg2.Error as error:
-                errorFileGenerator(error.pgcode, error.pgerror)
+                error_file_generator(error.pgcode, error.pgerror)
                 raise error
         else:
             raise ConnectionError("You cannot create another Connection class")
@@ -40,7 +40,7 @@ class Connection:
             try:
                 Connection.conn.commit()
             except psycopg2.Error as error:
-                errorFileGenerator(error.pgcode, error.pgerror)
+                error_file_generator(error.pgcode, error.pgerror)
                 raise error
 
     @staticmethod
@@ -50,5 +50,5 @@ class Connection:
                 Connection.conn.close()
                 Connection.conn = None
             except psycopg2.Error as error:
-                errorFileGenerator(error.pgcode, error.pgerror)
+                error_file_generator(error.pgcode, error.pgerror)
                 raise ConnectionError(error)

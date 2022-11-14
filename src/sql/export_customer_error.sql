@@ -5,10 +5,10 @@ COPY (
             subtype_name,
             CONCAT('Customer ', customer_id,' does not exist') AS error_message
         FROM
-            temp_focus_list tmp
+            temp_focus_list TMP
         LEFT JOIN
-            "Customers" c ON tmp.customer_id ::numeric = c.id
-        WHERE c.id IS NULL
+            "Customers" C ON TMP.customer_id ::numeric = C.id
+        WHERE C.id IS NULL
     )
     TO STDOUT 
     WITH CSV HEADER;

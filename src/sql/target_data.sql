@@ -12,11 +12,11 @@ INSERT INTO public."FocusList"
         suggested_edf,
         subtype_name,
         subtype_id::INTEGER,
-        now() AS created_at,
-        now() AS updated_at
+        now(),
+        now()
     FROM
-        temp_focus_list tmp
+        temp_focus_list TMP
     INNER JOIN
-    	"Customers" c ON tmp.customer_id ::numeric = c.id
+    	"Customers" C ON TMP.customer_id ::INTEGER = C.id
     INNER JOIN
-        "EquipmentSubtype" e ON tmp.subtype_id ::numeric = e.id;
+        "EquipmentSubtype" E ON TMP.subtype_id ::INTEGER = E.id;

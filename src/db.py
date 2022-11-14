@@ -1,6 +1,6 @@
 import psycopg2
 from connection import Connection
-from utils import errorFileGenerator
+from utils import error_file_generator
 
 class DB():
     def __init__(self):
@@ -16,18 +16,18 @@ class DB():
                     self.cur.execute(query)
                 self.conn.commit()
             except psycopg2.Error as error:
-                errorFileGenerator(error.pgcode, error.pgerror)
+                error_file_generator(error.pgcode, error.pgerror)
                 raise error
             finally:
                 print(f'Query executed successfully.')
 
-    def findAll(self, query):
+    def find_all(self, query):
         if self.conn is not None:
             try:
                 self.cur.execute(query)
                 return self.cur.fetchall()
             except psycopg2.Error as error:
-                errorFileGenerator(error.pgcode, error.pgerror)
+                error_file_generator(error.pgcode, error.pgerror)
                 raise error
             finally:
                 print(f'FindAll executed successfully.')
@@ -38,7 +38,7 @@ class DB():
                 self.cur.execute(query)
                 return self.cur.fetchone()
             except psycopg2.Error as error:
-                errorFileGenerator(error.pgcode, error.pgerror)
+                error_file_generator(error.pgcode, error.pgerror)
                 raise error
             finally:
                 print(f'Find executed successfully.')
@@ -49,7 +49,7 @@ class DB():
                 self.cur.copy_expert(query, file)
                 self.conn.commit()
             except psycopg2.Error as error:
-                errorFileGenerator(error.pgcode, error.pgerror)
+                error_file_generator(error.pgcode, error.pgerror)
                 raise error
             finally:
                 print(f'Copy executed successfully.')
@@ -59,7 +59,7 @@ class DB():
             try:
                 self.conn.close()
             except psycopg2.Error as error:
-                errorFileGenerator(error.pgcode, error.pgerror)
+                error_file_generator(error.pgcode, error.pgerror)
                 raise error
             finally:
                 print(f'Connection closed successfully.')
