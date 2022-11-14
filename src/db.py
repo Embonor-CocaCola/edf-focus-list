@@ -1,5 +1,6 @@
-from connection import Connection
 import psycopg2
+from connection import Connection
+from utils import errorFileGenerator
 
 class DB():
     def __init__(self):
@@ -14,8 +15,8 @@ class DB():
                 else:
                     self.cur.execute(query)
                 self.conn.commit()
-            except psycopg2.DatabaseError as error:
-                print(error)
+            except psycopg2.Error as error:
+                errorFileGenerator(error.pgcode, error.pgerror)
                 raise error
             finally:
                 print(f'Query executed successfully.')
@@ -25,7 +26,8 @@ class DB():
             try:
                 self.cur.execute(query)
                 return self.cur.fetchall()
-            except psycopg2.DatabaseError as error:
+            except psycopg2.Error as error:
+                errorFileGenerator(error.pgcode, error.pgerror)
                 raise error
             finally:
                 print(f'FindAll executed successfully.')
@@ -35,8 +37,8 @@ class DB():
             try:
                 self.cur.execute(query)
                 return self.cur.fetchone()
-            except psycopg2.DatabaseError as error:
-                print(error)
+            except psycopg2.Error as error:
+                errorFileGenerator(error.pgcode, error.pgerror)
                 raise error
             finally:
                 print(f'Find executed successfully.')
@@ -46,8 +48,8 @@ class DB():
             try:
                 self.cur.copy_expert(query, file)
                 self.conn.commit()
-            except psycopg2.DatabaseError as error:
-                print(error)
+            except psycopg2.Error as error:
+                errorFileGenerator(error.pgcode, error.pgerror)
                 raise error
             finally:
                 print(f'Copy executed successfully.')
@@ -56,8 +58,8 @@ class DB():
         if self.conn is not None:
             try:
                 self.conn.close()
-            except psycopg2.DatabaseError as error:
-                print(error)
+            except psycopg2.Error as error:
+                errorFileGenerator(error.pgcode, error.pgerror)
                 raise error
             finally:
                 print(f'Connection closed successfully.')

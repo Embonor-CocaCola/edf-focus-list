@@ -130,4 +130,3 @@ dmypy.json
 
 # Files and folders
 src/data/focus_list.csv
-src/logs

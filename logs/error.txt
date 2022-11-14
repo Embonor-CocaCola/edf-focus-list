@@ -1,1 +1,0 @@
-customer_id,subtype_id,subtype_name,error_message
