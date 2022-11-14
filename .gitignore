@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 # Files and folders
-src/data/focus_list.csv
+data/focus_list.csv
